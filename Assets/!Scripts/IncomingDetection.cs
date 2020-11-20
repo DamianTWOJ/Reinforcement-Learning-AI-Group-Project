@@ -25,22 +25,24 @@ public class IncomingDetection : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Jump Hazard")
+        if(!behaviour.playerBehaviour.playerDead)
         {
-            totalJumpObstacle++;
-            behaviour.incomingObstacle = incomingObstacle(1);
-            totalObstacle++;
-            behaviour.incomingObstacle = incomingtotalObstacles(totalObstacle);
+            if (col.gameObject.tag == "Jump Hazard")
+            {
+                totalJumpObstacle++;
+                behaviour.incomingObstacle = incomingObstacle(1);
+                totalObstacle++;
+                behaviour.incomingObstacle = incomingtotalObstacles(totalObstacle);
+            }
+            else if (col.gameObject.tag == "Slide Hazard")
+            {
+
+                totalSlideObstacle++;
+                behaviour.incomingObstacle = incomingObstacle(2);
+                totalObstacle++;
+                behaviour.incomingtotalObstacles = incomingtotalObstacles(totalObstacle);
+
+            }
         }
-        else if (col.gameObject.tag == "Slide Hazard")
-        {
-
-            totalSlideObstacle++;
-            behaviour.incomingObstacle = incomingObstacle(2);
-            totalObstacle++;
-            behaviour.incomingtotalObstacles = incomingtotalObstacles(totalObstacle);
-
-        }
-
     }
 }

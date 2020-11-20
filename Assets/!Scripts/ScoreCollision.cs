@@ -9,6 +9,7 @@ public class ScoreCollision : MonoBehaviour
     public Text scoreText; // UI text object
     public GameObject stateControllerObject;
     StateController stateController;
+    IncomingDetection id;
 
     public bool collide = false;
 
@@ -16,6 +17,7 @@ public class ScoreCollision : MonoBehaviour
     {
         Debug.Log("Previous Score was: " + StoredData.score); // Output stored previous score for testing
         stateController = stateControllerObject.GetComponent<StateController>();
+        id = GameObject.Find("Incoming Object Detection").GetComponent<IncomingDetection>();
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -26,6 +28,17 @@ public class ScoreCollision : MonoBehaviour
             score++;
             scoreText.text = score.ToString(); // Update UI element
             collide = true;
+        }
+
+        if (col.gameObject.tag == "Jump Hazard")
+        {
+            id.totalJumpObstacle--;          
+            id.totalObstacle--;        
+        }
+        else if (col.gameObject.tag == "Slide Hazard")
+        {
+            id.totalSlideObstacle--;       
+            id.totalObstacle--;
         }
     }
 }

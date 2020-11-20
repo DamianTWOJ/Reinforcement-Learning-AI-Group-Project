@@ -8,6 +8,7 @@ public class MachineLearning : MonoBehaviour
 	public StateController stateController;
 	public PlayerBehaviour playerBehaviour;
 	public ScoreCollision scoreCollision;
+	IncomingDetection id;
 		
 	public struct Action { public int reward1, reward2, reward3; }
 	public static Action action;
@@ -43,12 +44,20 @@ public class MachineLearning : MonoBehaviour
 		playerBehaviour = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
 		stateController = GameObject.Find("State Controller").GetComponent<StateController>();
 		scoreCollision = GameObject.Find("Score Collider").GetComponent<ScoreCollision>();
+		id = GameObject.Find("Incoming Object Detection").GetComponent<IncomingDetection>();
 	}
+	public int tempState;
+	public int prevState=0; 
 	public int PerformAction()
 	{
 		// get the curretn score 
 		tempScore = stateController.scoreCollision.score;
-		tempReward = MeasureReward(); 
+
+		tempState = getState(id.totalSlideObstacle,id.totalJumpObstacle, id.totalObstacle);
+
+		tempReward = MeasureReward();
+		prevState = tempState;
+
 		// if reward a > reward b > reward c) do action a 
 		currentGameState = stateController.getGameState();
 		if (tempReward == 1)
@@ -113,8 +122,27 @@ public class MachineLearning : MonoBehaviour
     int MeasureReward() 
 	{
 		// modify the reward values based on states first, this is 3rd level implementation 
-		
-		if((action.reward1 >= action.reward2) && (action.reward1 >= action.reward3))
+		if(prevState!=tempState)
+		{ 
+			if(tempState ==3)
+			{
+				return 3;
+			}
+			else if(tempState ==2)
+			{
+				action.reward2 += 2* id.totalSlideObstacle;
+			}
+			else if(tempState ==1)
+			{
+				action.reward1 += 2* id.totalSlideObstacle;
+			}
+
+			Debug.Log("Action1^: " + action.reward1);
+			Debug.Log("Action2^: " + action.reward2);
+		}
+
+
+		if ((action.reward1 >= action.reward2) && (action.reward1 >= action.reward3))
 		{
 			return 1;
 		}
@@ -129,6 +157,22 @@ public class MachineLearning : MonoBehaviour
 		// we have to give a reward score 
 		// compare currentScore and bestScore 		
 		return 0; 
+	}
+	int getState(int slidehazard, int jumphazard, int totalhazard)
+	{
+		if (totalhazard == 0)
+		{
+			return 3;
+		}
+		if (slidehazard > jumphazard)
+		{
+			return 2;
+		}
+		if (jumphazard > slidehazard)
+		{
+			return 1;
+		}
+		return 0;
 	}
 	public void UpdateRewards()
 	{
