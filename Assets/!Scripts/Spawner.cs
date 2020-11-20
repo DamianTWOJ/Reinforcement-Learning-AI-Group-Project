@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public float spawnTime = 1;
     private float timer = 0;
+    float randomNum = 0;
+    float spawnTime = 1.5f;
+    public float minSpawnTime = 1;
+    public float maxSpawnTime = 3.0f;
     public GameObject saw, block;
     public PlayerBehaviour player;
-    float randomNum = 0;
 
     // Update is called once per frame
     void Update()
@@ -36,6 +38,8 @@ public class Spawner : MonoBehaviour
             Destroy(hazard, 3); // Delete after exiting screen
 
             timer = 0;
+            // Once an object has spawned set the spawn time for the next object
+            spawnTime = Random.Range(minSpawnTime, maxSpawnTime);
         }
 
         timer += Time.deltaTime;
