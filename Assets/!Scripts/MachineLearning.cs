@@ -32,21 +32,12 @@ public class MachineLearning : MonoBehaviour
     // Use this for initialization // start and update will call themselves through unity 
     void Start () 
 	{
-
-		//action.reward1=SetActionRewards(StoredData.reward1); 
-		//action.reward2=SetActionRewards(StoredData.reward2); 
-		//action.reward3=SetActionRewards(StoredData.reward3);
-
-		Debug.Log("Reward 1: " + action.reward1);
-		Debug.Log("Reward 2: " + action.reward2);
-		Debug.Log("Reward 3: " + action.reward3);
-		
 		playerBehaviour = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
 		stateController = GameObject.Find("State Controller").GetComponent<StateController>();
 		scoreCollision = GameObject.Find("Score Collider").GetComponent<ScoreCollision>();
 		id = GameObject.Find("Incoming Object Detection").GetComponent<IncomingDetection>();
 	}
-	public int tempState;
+	public int tempState=0;
 	public int prevState=0; 
 	public int PerformAction()
 	{
@@ -77,7 +68,7 @@ public class MachineLearning : MonoBehaviour
 		else if (tempReward == 2)
 		{ // action has positive result 
 			if (currentGameState == true)
-			{ // info we need to get, when the action was made and how far the object was 
+			{ 
 				// player died 
 			 //decrease this action reward value
 				
@@ -99,7 +90,7 @@ public class MachineLearning : MonoBehaviour
 		else
 		{
 			if (currentGameState == true)
-			{ // info we need to get, when the action was made and how far the object was 
+			{
 			  // player died 
 			  //decrease this action reward value 
 
@@ -123,10 +114,10 @@ public class MachineLearning : MonoBehaviour
 	{
 		// modify the reward values based on states first, this is 3rd level implementation 
 		if(prevState!=tempState)
-		{ 
+		{
 			if(tempState ==3)
 			{
-				return 3;
+				action.reward3 += 2;
 			}
 			else if(tempState ==2)
 			{
@@ -137,10 +128,7 @@ public class MachineLearning : MonoBehaviour
 				action.reward1 += 2* id.totalSlideObstacle;
 			}
 
-			Debug.Log("Action1^: " + action.reward1);
-			Debug.Log("Action2^: " + action.reward2);
 		}
-
 
 		if ((action.reward1 >= action.reward2) && (action.reward1 >= action.reward3))
 		{
@@ -160,15 +148,15 @@ public class MachineLearning : MonoBehaviour
 	}
 	int getState(int slidehazard, int jumphazard, int totalhazard)
 	{
-		if (totalhazard == 0)
+		if (totalhazard == 0) // if no hazard, perform run
 		{
 			return 3;
 		}
-		if (slidehazard > jumphazard)
+		if (slidehazard > jumphazard) //if saw hazard, slide
 		{
 			return 2;
 		}
-		if (jumphazard > slidehazard)
+		if (jumphazard > slidehazard) //if blocked, jump
 		{
 			return 1;
 		}
