@@ -10,6 +10,8 @@ public class ScoreCollision : MonoBehaviour
     public GameObject stateControllerObject;
     StateController stateController;
 
+    public bool collide = false;
+
     void Start()
     {
         Debug.Log("Previous Score was: " + StoredData.score); // Output stored previous score for testing
@@ -18,11 +20,12 @@ public class ScoreCollision : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        Debug.Log("Collision Detected");
-        if (col.gameObject.tag == "Hazard")
+        //Debug.Log("Collision Detected");
+        if (col.gameObject.tag == "Slide Hazard")
         {
             score++;
             scoreText.text = score.ToString(); // Update UI element
+            collide = true;
         }
     }
 }
