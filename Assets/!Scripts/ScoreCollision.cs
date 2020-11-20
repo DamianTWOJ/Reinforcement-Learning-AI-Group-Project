@@ -19,7 +19,7 @@ public class ScoreCollision : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         Debug.Log("Collision Detected");
-        if (col.gameObject.tag == "Hazard")
+        if (col.gameObject.tag == "Slide Hazard" || col.gameObject.tag == "Jump Hazard")
         {
             score++;
             scoreText.text = score.ToString(); // Update UI element

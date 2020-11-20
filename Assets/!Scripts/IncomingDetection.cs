@@ -8,5 +8,9 @@ public class IncomingDetection : MonoBehaviour
     {
         // When the incoming object is detected, we run this code to inform the AI based on
         // what information we want to give it in order to make decisions
+        if (col.gameObject.tag == "Slide Hazard")
+        {
+            Debug.Log("Collision");
+        }
     }
 }

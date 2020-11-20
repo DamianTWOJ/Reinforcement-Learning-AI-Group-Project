@@ -7,7 +7,7 @@ public class PlayerBehaviour : MonoBehaviour
     Animator anim;
     private Rigidbody2D rb;
     public float velocity = 1;
-    bool playerDead = false;
+    public bool playerDead = false;
     public GameObject stateControllerObject;
     StateController stateController;
     bool canJump = true;
@@ -56,13 +56,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Hazard")
+        if (col.gameObject.tag == "Slide Hazard" || col.gameObject.tag == "Jump Hazard")
         {
             playerDead = true;
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             stateController.GameOver();
-
         }
     }
 }

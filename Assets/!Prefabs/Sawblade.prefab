@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2967953277638054600}
   m_Layer: 0
   m_Name: Sawblade
-  m_TagString: Hazard
+  m_TagString: Slide Hazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
