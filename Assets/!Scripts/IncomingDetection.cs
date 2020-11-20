@@ -25,7 +25,7 @@ public class IncomingDetection : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D col)
     {
-        if(!behaviour.playerBehaviour.playerDead)
+        if (!behaviour.playerBehaviour.playerDead)
         {
             if (col.gameObject.tag == "Jump Hazard")
             {

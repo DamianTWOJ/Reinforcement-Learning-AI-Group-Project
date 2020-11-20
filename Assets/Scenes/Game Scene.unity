@@ -158,7 +158,7 @@ MonoBehaviour:
   jumpObstacle: 0
   totalObstacle: 0
   totalJumpObstacle: 0
-  behaviour: {fileID: 0}
+  behaviour: {fileID: 635077144}
   totalSlideObstacle: 0
 --- !u!50 &390490653
 Rigidbody2D:
@@ -333,13 +333,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f1ec86cdbf0a4458d711b177685728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateController: {fileID: 0}
-  playerBehaviour: {fileID: 0}
-  scoreCollision: {fileID: 0}
+  stateController: {fileID: 830598323}
+  playerBehaviour: {fileID: 4244604740018887562}
+  scoreCollision: {fileID: 1244413798}
   tempScore: 0
   currentGameState: 0
   incomingObstacle: 0
   incomingtotalObstacles: 0
+  tempState: 0
+  prevState: 0
 --- !u!4 &635077145
 Transform:
   m_ObjectHideFlags: 0
@@ -624,7 +626,7 @@ MonoBehaviour:
   endPanel: {fileID: 1802817543}
   scoreCollision: {fileID: 1244413798}
   gameOverState: 0
-  playerData: {fileID: 0}
+  playerData: {fileID: 4244604740018887562}
   deathAction: 0
 --- !u!1 &924757848
 GameObject:

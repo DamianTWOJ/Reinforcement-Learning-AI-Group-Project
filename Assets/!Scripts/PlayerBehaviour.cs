@@ -47,7 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             anim.SetBool("sliding", true);
         }
-        else if(Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0))
         {
             anim.SetBool("sliding", false);
 
