@@ -37,24 +37,24 @@ public class PlayerBehaviour : MonoBehaviour
         recentAction = chosenAction;
         //anim.SetBool("sliding", false);
 
-        if (chosenAction == 1 && canJump == true) //jump
+        if (chosenAction == 1 && canJump == true || Input.GetMouseButtonDown(0) && canJump == true) //jump
         {
-            anim.SetBool("sliding", false);
+            anim.SetBool("Sliding", false);
             rb.velocity = Vector2.up * velocity;
         }
         // Slide action (hold)
         else if (chosenAction == 2 || Input.GetMouseButtonDown(0)) //slide
         {
-            anim.SetBool("sliding", true);
+            anim.SetBool("Sliding", true);
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            anim.SetBool("sliding", false);
+            anim.SetBool("Sliding", false);
 
         }
         else if (chosenAction == 0)
         {
-            anim.SetBool("sliding", false);
+            anim.SetBool("Sliding", false);
 
             //stateController.GameOver();
 
@@ -70,15 +70,21 @@ public class PlayerBehaviour : MonoBehaviour
         if (rb.velocity.y < 0)
         {
             // Fall animation trigger here
+            anim.SetBool("Falling", true);
+            anim.SetBool("Jumping", false);
             canJump = false;
         }
         else if (rb.velocity.y > 0)
         {
             // Jump animation trigger here
+            anim.SetBool("Jumping", true);
+            anim.SetBool("Falling", false);
             canJump = false;
         }
         else
         {
+            anim.SetBool("Jumping", false);
+            anim.SetBool("Falling", false);
             canJump = true;
         }
     }
