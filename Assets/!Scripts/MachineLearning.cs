@@ -118,37 +118,38 @@ public class MachineLearning : MonoBehaviour
     }
     int MeasureReward()
     {
-        Debug.Log("tempState: " + tempState + "\n prevState: " + prevState);
+        //Debug.Log("tempState: " + tempState + "\n prevState: " + prevState);
         // modify the reward values based on states first, this is 3rd level implementation 
         if (prevState != tempState)
         {
-            if (!scoreCollision.collide)
+            //if (!scoreCollision.collide)
+            //{
+            if (tempState == 3) //running
             {
-                if (tempState == 3) //running
-                {
-                    Debug.Log("Increase RUNNING");
-                    action.reward3 += (Mathf.Max(jumpDeathCounter, slideDeathCounter));
-                }
-                else if (tempState == 2) //sliding
-                {
-                    Debug.Log("Increase SLIDING");
-                    action.reward2 += jumpDeathCounter * jumpDeathCounter;
-                    //action.reward3--;
-                }
-                else if (tempState == 1) //jumping
-                {
-                    Debug.Log("Increase JUMPING");
-                    action.reward1 += slideDeathCounter * slideDeathCounter;
-                    //action.reward3--;
-                }
-
+                //Debug.Log("Increase RUNNING");
+                action.reward3 += (Mathf.Max(jumpDeathCounter, slideDeathCounter));
             }
+            else if (tempState == 2) //sliding
+            {
+                //Debug.Log("Increase SLIDING");
+                action.reward2 += jumpDeathCounter * jumpDeathCounter;
+                //action.reward3--;
+            }
+            else if (tempState == 1) //jumping
+            {
+                //Debug.Log("Increase JUMPING");
+                action.reward1 += slideDeathCounter * slideDeathCounter;
+                //action.reward3--;
+            }
+
+            //}
 
             // Debug.Log("Slide Count:" + slideDeathCounter);
             // Debug.Log("Jump Count:" + jumpDeathCounter);
-            Debug.Log("Reward 1:" + action.reward1);
-            Debug.Log("Reward 2:" + action.reward2);
-            //Debug.Log("Reward 3:" + action.reward3);
+            Debug.Log("Reward 1: " + action.reward1);
+            Debug.Log("Reward 2: " + action.reward2);
+            Debug.Log("Reward 3: " + action.reward3);
+            Debug.Log("--------------------------------");
         }
 
 
@@ -170,7 +171,7 @@ public class MachineLearning : MonoBehaviour
     }
     int getState(int slidehazard, int jumphazard, int totalhazard)
     {
-        Debug.Log("totalHazard: " + totalhazard + "\nslideHazard: " + slidehazard + "\njumpHazard: " + jumphazard);
+        //Debug.Log("totalHazard: " + totalhazard + "\nslideHazard: " + slidehazard + "\njumpHazard: " + jumphazard);
         if (totalhazard == 0) // if no hazard, perform run
         {
             return 3;
@@ -190,21 +191,22 @@ public class MachineLearning : MonoBehaviour
         if (stateController.getGameState() == true)
         {
             Debug.Log("Death Action:" + stateController.deathAction);
+            Debug.Log("Slide Deaths: " + slideDeathCounter + " | Jump Deaths: " + jumpDeathCounter);
             if (stateController.deathAction == 1)
             {
-                Debug.Log("Decrease JUMP");
-                action.reward1 = SetActionRewards(action.reward1 - slideDeathCounter);
+                //Debug.Log("Decrease JUMP");
+                action.reward1 = SetActionRewards(action.reward1 - (slideDeathCounter * slideDeathCounter));
             }
             else if (stateController.deathAction == 2)
             {
-                Debug.Log("Decrease SLIDE");
-                action.reward2 = SetActionRewards(action.reward2 - jumpDeathCounter);
+                //Debug.Log("Decrease SLIDE");
+                action.reward2 = SetActionRewards(action.reward2 - (jumpDeathCounter * jumpDeathCounter));
                 //jumpDeathCounter++;
 
             }
             else if (stateController.deathAction == 3)
             {
-                Debug.Log("Decrease RUN");
+                //Debug.Log("Decrease RUN");
                 action.reward3 = SetActionRewards(action.reward3 - Mathf.Max(jumpDeathCounter, slideDeathCounter));
             }
 

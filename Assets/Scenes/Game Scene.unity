@@ -1093,8 +1093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c6a361d1cde4542bb424496b92e6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnTime: 0.8
-  maxSpawnTime: 2
+  minSpawnTime: 1.2
+  maxSpawnTime: 2.2
   saw: {fileID: 6776015681280368108, guid: d1f7b43f26d11884998509c54f05a941, type: 3}
   block: {fileID: 475495325826827318, guid: 69fbe497aa93d9e45a4cdb0ac3e853f4, type: 3}
   player: {fileID: 4244604740018887562}

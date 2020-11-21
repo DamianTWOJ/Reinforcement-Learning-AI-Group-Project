@@ -26,6 +26,8 @@ public class PlayerBehaviour : MonoBehaviour
         incObject = GetComponentInChildren<DetectObject>();
         stateController = stateControllerObject.GetComponent<StateController>();
         player = GameObject.Find("RL AI").GetComponent<MachineLearning>();
+
+        Debug.Log("--------------------------------");
     }
 
     public void GameOverUpdate()
@@ -36,7 +38,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         chosenAction = player.PerformAction();
-        Debug.Log("Chosen Action: " + chosenAction);
+        //Debug.Log("Chosen Action: " + chosenAction);
         // Jump action (click once)
         recentAction = chosenAction;
         //anim.SetBool("sliding", false);
@@ -61,7 +63,7 @@ public class PlayerBehaviour : MonoBehaviour
             //stateController.GameOver();
 
         }
-        else { }
+        else { anim.SetBool("Sliding", false); }
         //}
         //incomingHazard.isNear = false;
 

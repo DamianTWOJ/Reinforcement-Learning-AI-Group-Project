@@ -28,6 +28,7 @@ public class StateController : MonoBehaviour
         deathAction = playerData.getDeathAction();
 
         gameOverState = true;
+        playerData.GameOverUpdate();
         StoredData.score = scoreCollision.score; // Storing data before scene reset
         StoredData.reward1 = MachineLearning.action.reward1;
         StoredData.reward2 = MachineLearning.action.reward2;
@@ -39,6 +40,5 @@ public class StateController : MonoBehaviour
 
         scoreCollision.GetComponent<BoxCollider2D>().enabled = false; // Stop tracking points
         endPanel.SetActive(true); // Show game over screen
-        playerData.GameOverUpdate();
     }
 }
