@@ -10,9 +10,9 @@ public class PlayerBehaviour : MonoBehaviour
     public bool playerDead = false;
     public GameObject stateControllerObject;
     StateController stateController;
-    public IncomingObject incomingHazard;
     bool canJump = true;
     bool isGrounded = false;
+    DetectObject incObject;
 
     public int recentAction = 3;
     public int chosenAction;
@@ -23,6 +23,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        incObject = GetComponentInChildren<DetectObject>();
         stateController = stateControllerObject.GetComponent<StateController>();
         player = GameObject.Find("RL AI").GetComponent<MachineLearning>();
     }
@@ -35,17 +36,15 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         chosenAction = player.PerformAction();
+        Debug.Log("Chosen Action: " + chosenAction);
         // Jump action (click once)
         recentAction = chosenAction;
         //anim.SetBool("sliding", false);
 
-        if (chosenAction == 1 && canJump == true) //jump
+        if (chosenAction == 1 && canJump == true && incObject.isNear == true) //jump
         {
-            if (incomingHazard.isNear == true)
-            {
-                anim.SetBool("Sliding", false);
-                rb.velocity = Vector2.up * velocity;
-            }
+            anim.SetBool("Sliding", false);
+            rb.velocity = Vector2.up * velocity;
         }
 
         else if (chosenAction == 2) //slide
@@ -59,14 +58,12 @@ public class PlayerBehaviour : MonoBehaviour
         else if (chosenAction == 0)
         {
             anim.SetBool("Sliding", false);
-
             //stateController.GameOver();
 
         }
         else { }
-
-        }
-        incomingHazard.isNear = false;
+        //}
+        //incomingHazard.isNear = false;
 
         if (!stateController.gameOverState) { player.UpdateRewards(); }
 
@@ -74,15 +71,15 @@ public class PlayerBehaviour : MonoBehaviour
         if (rb.velocity.y < 0)
         {
             // Fall animation trigger here
-            anim.SetBool("Jumping", false);
-            anim.SetBool("Falling", true);
+            //anim.SetBool("Jumping", false);
+            //anim.SetBool("Falling", true);
             canJump = false;
         }
         else if (rb.velocity.y > 0)
         {
             // Jump animation trigger here
-            anim.SetBool("Jumping", true);
-            anim.SetBool("Falling", false);
+            //anim.SetBool("Jumping", true);
+            //anim.SetBool("Falling", false);
             canJump = false;
         }
         else
@@ -90,7 +87,7 @@ public class PlayerBehaviour : MonoBehaviour
             anim.SetBool("Jumping", false);
             anim.SetBool("Falling", false);
             canJump = true;
-            isGrounded = true;
+            //isGrounded = true;
         }
     }
     public int getDeathAction()
@@ -109,13 +106,13 @@ public class PlayerBehaviour : MonoBehaviour
             stateController.GameOver();
         }
 
-        if(playerDead)
+        if (playerDead)
         {
-            if(col.gameObject.tag == "Slide Hazard")
+            if (col.gameObject.tag == "Slide Hazard")
             {
                 player.jumpDeathCounter++;
             }
-            if(col.gameObject.tag == "Jump Hazard")
+            if (col.gameObject.tag == "Jump Hazard")
             {
                 player.slideDeathCounter++;
             }
