@@ -59,10 +59,7 @@ public class PlayerBehaviour : MonoBehaviour
             //stateController.GameOver();
 
         }
-        else
-        {
-
-        }
+        else { }
 
         if (!stateController.gameOverState) { player.UpdateRewards(); }
 
@@ -96,6 +93,20 @@ public class PlayerBehaviour : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             stateController.GameOver();
+        }
+
+        if(playerDead)
+        {
+            if(col.gameObject.tag == "Slide Hazard")
+            {
+                player.jumpDeathCounter++;
+            }
+            if(col.gameObject.tag == "Jump Hazard")
+            {
+                player.slideDeathCounter++;
+            }
+            StoredData.slideDeath = player.slideDeathCounter;
+            StoredData.jumpDeath = player.jumpDeathCounter;
         }
     }
 }

@@ -17,7 +17,7 @@ public class Spawner : MonoBehaviour
         if (timer > spawnTime && player.playerDead == false)
         {
             randomNum = Random.Range(0.0f, 1.0f);
-            Debug.Log("ranomdNum = " + randomNum);
+           // Debug.Log("ranomdNum = " + randomNum);
             GameObject hazard = null;
             //Instantiate hazardous object.Can be modified to include more hazards.
             if (randomNum < 0.5)
@@ -29,8 +29,8 @@ public class Spawner : MonoBehaviour
             {
                 hazard = Instantiate(block);
                 hazard.transform.position = transform.position + new Vector3(0, -2.8f, 0);
-                Debug.Log("X: " + hazard.transform.position.x + " Y: " +
-                hazard.transform.position.y);
+                //Debug.Log("X: " + hazard.transform.position.x + " Y: " +
+                //hazard.transform.position.y);
             }
 
             Destroy(hazard, 3); // Delete after exiting screen
