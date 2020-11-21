@@ -63,8 +63,7 @@ public class PlayerBehaviour : MonoBehaviour
             //stateController.GameOver();
 
         }
-        else
-        {
+        else { }
 
         }
         incomingHazard.isNear = false;
@@ -110,13 +109,18 @@ public class PlayerBehaviour : MonoBehaviour
             stateController.GameOver();
         }
 
-        if (col.gameObject.tag == "Ground")
+        if(playerDead)
         {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
+            if(col.gameObject.tag == "Slide Hazard")
+            {
+                player.jumpDeathCounter++;
+            }
+            if(col.gameObject.tag == "Jump Hazard")
+            {
+                player.slideDeathCounter++;
+            }
+            StoredData.slideDeath = player.slideDeathCounter;
+            StoredData.jumpDeath = player.jumpDeathCounter;
         }
     }
 }

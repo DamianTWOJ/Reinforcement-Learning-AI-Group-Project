@@ -15,18 +15,18 @@ public class ScoreCollision : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Previous Score was: " + StoredData.score); // Output stored previous score for testing
+        //Debug.Log("Previous Score was: " + StoredData.score); // Output stored previous score for testing
         stateController = stateControllerObject.GetComponent<StateController>();
         id = GameObject.Find("Incoming Object Detection").GetComponent<IncomingDetection>();
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        collide = true;
         if (col.gameObject.tag == "Slide Hazard" || col.gameObject.tag == "Jump Hazard")
         {
             score++;
             scoreText.text = score.ToString(); // Update UI element
-            collide = true;
         }
 
         if (col.gameObject.tag == "Jump Hazard")

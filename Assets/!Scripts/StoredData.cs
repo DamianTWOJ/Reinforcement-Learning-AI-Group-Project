@@ -15,7 +15,8 @@ public class StoredData : MonoBehaviour
     public static int reward2 =0;
     public static int reward3 =0;
 
-
+    public static int jumpDeath =0;
+    public static int slideDeath =0;
     // When writing data to this script in another class, script can simply be reference as follows:
     // StoredData.score = 420;
 }
