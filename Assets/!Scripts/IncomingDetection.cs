@@ -10,6 +10,8 @@ public class IncomingDetection : MonoBehaviour
     public int totalJumpObstacle = 0;
     public MachineLearning behaviour;
     public int totalSlideObstacle = 0;
+    public string prevTag = ""; // 1 = Jump; 2 = Slide 
+    public int streak = 0;
 
     void Start()
     {
@@ -29,6 +31,8 @@ public class IncomingDetection : MonoBehaviour
         {
             if (col.gameObject.tag == "Jump Hazard")
             {
+                if (prevTag == col.gameObject.tag) { streak++; } else { streak = 1; }
+                prevTag = col.gameObject.tag;
                 totalJumpObstacle++;
                 behaviour.incomingObstacle = incomingObstacle(1);
                 totalObstacle++;
@@ -36,13 +40,15 @@ public class IncomingDetection : MonoBehaviour
             }
             else if (col.gameObject.tag == "Slide Hazard")
             {
-
+                if (prevTag == col.gameObject.tag) { streak++; } else { streak = 1; }
+                prevTag = col.gameObject.tag;
                 totalSlideObstacle++;
                 behaviour.incomingObstacle = incomingObstacle(2);
                 totalObstacle++;
                 behaviour.incomingtotalObstacles = incomingtotalObstacles(totalObstacle);
 
             }
+            Debug.Log("prevTag: " + prevTag + " | Streak: " + streak);
         }
     }
 }

@@ -132,13 +132,13 @@ public class MachineLearning : MonoBehaviour
             else if (tempState == 2) //sliding
             {
                 //Debug.Log("Increase SLIDING");
-                action.reward2 += jumpDeathCounter * jumpDeathCounter;
+                action.reward2 += ((jumpDeathCounter * jumpDeathCounter) / (id.streak * id.streak));
                 //action.reward3--;
             }
             else if (tempState == 1) //jumping
             {
                 //Debug.Log("Increase JUMPING");
-                action.reward1 += slideDeathCounter * slideDeathCounter;
+                action.reward1 += ((slideDeathCounter * slideDeathCounter) / (id.streak * id.streak));
                 //action.reward3--;
             }
 
@@ -152,18 +152,24 @@ public class MachineLearning : MonoBehaviour
             Debug.Log("--------------------------------");
         }
 
-
-        if ((action.reward1 >= action.reward2) && (action.reward1 >= action.reward3))
+        if ((action.reward1 > action.reward2) && (action.reward1 > action.reward3))
         {
             return 1;
         }
-        if ((action.reward2 >= action.reward1) && (action.reward2 >= action.reward3))
+        if ((action.reward2 > action.reward1) && (action.reward2 > action.reward3))
         {
             return 2;
         }
         if ((action.reward3 >= action.reward1) && (action.reward3 >= action.reward2))
         {
             return 3;
+        }
+        if (action.reward1 == action.reward2)
+        {
+            if (tempState == 1)
+                return 1;
+            else if (tempState == 2)
+                return 2;
         }
         // we have to give a reward score 
         // compare currentScore and bestScore 		
