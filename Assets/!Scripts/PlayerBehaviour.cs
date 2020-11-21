@@ -37,7 +37,7 @@ public class PlayerBehaviour : MonoBehaviour
         recentAction = chosenAction;
         //anim.SetBool("sliding", false);
 
-        if (chosenAction == 1 && canJump == true || Input.GetMouseButtonDown(0) && canJump == true) //jump
+        if (chosenAction == 1 && canJump == true) //jump
         {
             anim.SetBool("Sliding", false);
             rb.velocity = Vector2.up * velocity;
