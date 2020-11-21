@@ -40,6 +40,7 @@ public class MachineLearning : MonoBehaviour
 
 		slideDeathCounter = StoredData.slideDeath;
 		jumpDeathCounter = StoredData.jumpDeath;
+		action.reward3 = Mathf.Max(StoredData.reward2,StoredData.reward1) +1;
 	}
 	public int tempState=0;
 	public int prevState=0; 
@@ -120,19 +121,23 @@ public class MachineLearning : MonoBehaviour
 		// modify the reward values based on states first, this is 3rd level implementation 
 		if(prevState!=tempState)
 		{
-			if(tempState ==3) //running
+			if(!scoreCollision.collide)
 			{
-				action.reward3 += Mathf.Max(jumpDeathCounter,slideDeathCounter) * Mathf.Max(jumpDeathCounter, slideDeathCounter);
-			}
-			else if(tempState ==2) //sliding
-			{
-				action.reward2 += jumpDeathCounter * jumpDeathCounter;
-				//action.reward3--;
-			}
-			else if(tempState ==1) //jumping
-			{
-				action.reward1 += slideDeathCounter * slideDeathCounter;
-				//action.reward3--;
+				if(tempState ==3) //running
+				{
+					action.reward3 += 2+ (Mathf.Max(jumpDeathCounter,slideDeathCounter));
+				}
+				else if(tempState ==2) //sliding
+				{
+					action.reward2 += jumpDeathCounter * jumpDeathCounter;
+					//action.reward3--;
+				}
+				else if(tempState ==1) //jumping
+				{
+					action.reward1 += slideDeathCounter * slideDeathCounter;
+					//action.reward3--;
+				}
+
 			}
 
 			Debug.Log("Slide Count:" + slideDeathCounter);
@@ -140,7 +145,6 @@ public class MachineLearning : MonoBehaviour
 			Debug.Log("Reward 1:" + action.reward1);
 			Debug.Log("Reward 2:" + action.reward2);
 			Debug.Log("Reward 3:" + action.reward3);
-
 		}
 
 
@@ -180,48 +184,43 @@ public class MachineLearning : MonoBehaviour
 	{
 		if(stateController.getGameState() == true)
 		{
-			if(stateController.deathAction == 1)
+			Debug.Log("Death Action:" + stateController.deathAction);
+			if (stateController.deathAction == 1) 
 			{
-						// player died 
-				//decrease this action reward value 
-				action.reward1 = SetActionRewards(action.reward1-1);
-				//slideDeathCounter++;
+				action.reward1 = SetActionRewards(action.reward1 - slideDeathCounter);
 			}			
 			else if(stateController.deathAction == 2)
 			{
-				action.reward2 = SetActionRewards(action.reward2-1);
+				action.reward2 = SetActionRewards(action.reward2-jumpDeathCounter);
 				//jumpDeathCounter++;
 				
 			}
 			else if(stateController.deathAction == 3)
 			{
-				action.reward3 = SetActionRewards(action.reward3-1); 
+				action.reward3 = SetActionRewards(action.reward3- Mathf.Max(jumpDeathCounter,slideDeathCounter)); 
 			}
-				// get game state 
-				// modify score 
-				// increase rewards slightly for other actions 
-		
+
 		}
-		else if(stateController.getGameState() == false)
-		{	
-			if(scoreCollision.collide)
-			{
-				//Debug.Log("HELLO!");
-				if(playerBehaviour.recentAction == 3)
-				{
-					action.reward3++; 	
-				}
-				else if(playerBehaviour.recentAction == 2)
-				{
-					action.reward2++;
-				}
-				else if(playerBehaviour.recentAction == 1)
-				{
-					action.reward1++; 	
-				}
-				scoreCollision.collide = false;
-			}
-		}
+		//else if(stateController.getGameState() == false)
+		//{	
+		//	if(scoreCollision.collide)
+		//	{
+		//		//Debug.Log("HELLO!");
+		//		if(playerBehaviour.recentAction == 3)
+		//		{
+		//			action.reward3+= Mathf.Max(jumpDeathCounter,slideDeathCounter); 	
+		//		}
+		//		else if(playerBehaviour.recentAction == 2)
+		//		{
+		//			action.reward2+= jumpDeathCounter;
+		//		}
+		//		else if(playerBehaviour.recentAction == 1)
+		//		{
+		//			action.reward1+=slideDeathCounter; 	
+		//		}
+		//		scoreCollision.collide = false;
+		//	}
+		//}
 	}
     // Update is called once per frame
     void Update () {
