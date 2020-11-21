@@ -71,15 +71,15 @@ public class PlayerBehaviour : MonoBehaviour
         if (rb.velocity.y < 0)
         {
             // Fall animation trigger here
-            //anim.SetBool("Jumping", false);
-            //anim.SetBool("Falling", true);
+            anim.SetBool("Jumping", false);
+            anim.SetBool("Falling", true);
             canJump = false;
         }
         else if (rb.velocity.y > 0)
         {
             // Jump animation trigger here
-            //anim.SetBool("Jumping", true);
-            //anim.SetBool("Falling", false);
+            anim.SetBool("Jumping", true);
+            anim.SetBool("Falling", false);
             canJump = false;
         }
         else
