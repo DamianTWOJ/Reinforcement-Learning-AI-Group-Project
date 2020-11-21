@@ -160,6 +160,8 @@ MonoBehaviour:
   totalJumpObstacle: 0
   behaviour: {fileID: 635077144}
   totalSlideObstacle: 0
+  colliding: 0
+  player: {fileID: 0}
 --- !u!50 &390490653
 Rigidbody2D:
   serializedVersion: 4
@@ -1491,7 +1493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4244604740908707214, guid: 5152036df32f6af4dbba85c6d2921843, type: 3}
       propertyPath: velocity
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4244604740908707214, guid: 5152036df32f6af4dbba85c6d2921843, type: 3}
       propertyPath: stateControllerObject

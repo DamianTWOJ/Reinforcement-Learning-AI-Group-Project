@@ -59,6 +59,7 @@ public class MachineLearning : MonoBehaviour
 		currentGameState = stateController.getGameState();
 		if (tempReward == 1)
 		{ // if action results in death or negative occurence
+			
 			if (currentGameState == true)
 			{ // info we need to get, when the action was made and how far the object was 
 				return 0;

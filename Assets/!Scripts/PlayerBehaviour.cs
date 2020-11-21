@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    Animator anim;
+    public Animator anim;
     private Rigidbody2D rb;
     public float velocity = 1;
     public bool playerDead = false;
@@ -15,6 +15,8 @@ public class PlayerBehaviour : MonoBehaviour
     public int recentAction = 3;
     public int chosenAction;
     MachineLearning player;
+    public bool jump = false;
+    public bool slide = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,31 +40,30 @@ public class PlayerBehaviour : MonoBehaviour
         //anim.SetBool("sliding", false);
 
         if (chosenAction == 1 && canJump == true) //jump
-        {
-            anim.SetBool("sliding", false);
-            rb.velocity = Vector2.up * velocity;
-        }
-        // Slide action (hold)
-        else if (chosenAction == 2 || Input.GetMouseButtonDown(0)) //slide
-        {
-            anim.SetBool("sliding", true);
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
+        {       
             anim.SetBool("sliding", false);
 
+            rb.velocity = Vector2.up * velocity;
+
+            jump = false;
+        }
+        // Slide action (hold)
+        else if (chosenAction == 2) //slide
+        {
+            anim.SetBool("sliding", true);
+            slide = false;
         }
         else if (chosenAction == 0)
         {
             anim.SetBool("sliding", false);
-
             //stateController.GameOver();
-
         }
-        else { }
+        else 
+        {
+            anim.SetBool("sliding", false);
+        }
 
         if (!stateController.gameOverState) { player.UpdateRewards(); }
-
 
         if (rb.velocity.y < 0)
         {
