@@ -10,7 +10,9 @@ public class PlayerBehaviour : MonoBehaviour
     public bool playerDead = false;
     public GameObject stateControllerObject;
     StateController stateController;
+    public IncomingObject incomingHazard;
     bool canJump = true;
+    bool isGrounded = false;
 
     public int recentAction = 3;
     public int chosenAction;
@@ -39,18 +41,20 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (chosenAction == 1 && canJump == true) //jump
         {
-            anim.SetBool("Sliding", false);
-            rb.velocity = Vector2.up * velocity;
+            if (incomingHazard.isNear == true)
+            {
+                anim.SetBool("Sliding", false);
+                rb.velocity = Vector2.up * velocity;
+            }
         }
-        // Slide action (hold)
-        else if (chosenAction == 2 || Input.GetMouseButtonDown(0)) //slide
+
+        else if (chosenAction == 2) //slide
         {
             anim.SetBool("Sliding", true);
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (chosenAction == 3)
         {
             anim.SetBool("Sliding", false);
-
         }
         else if (chosenAction == 0)
         {
@@ -63,6 +67,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
 
         }
+        incomingHazard.isNear = false;
 
         if (!stateController.gameOverState) { player.UpdateRewards(); }
 
@@ -70,8 +75,8 @@ public class PlayerBehaviour : MonoBehaviour
         if (rb.velocity.y < 0)
         {
             // Fall animation trigger here
-            anim.SetBool("Falling", true);
             anim.SetBool("Jumping", false);
+            anim.SetBool("Falling", true);
             canJump = false;
         }
         else if (rb.velocity.y > 0)
@@ -86,6 +91,7 @@ public class PlayerBehaviour : MonoBehaviour
             anim.SetBool("Jumping", false);
             anim.SetBool("Falling", false);
             canJump = true;
+            isGrounded = true;
         }
     }
     public int getDeathAction()
@@ -102,6 +108,15 @@ public class PlayerBehaviour : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             stateController.GameOver();
+        }
+
+        if (col.gameObject.tag == "Ground")
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
         }
     }
 }

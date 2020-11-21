@@ -8,6 +8,7 @@ TagManager:
   - Score
   - Jump Hazard
   - Slide Hazard
+  - Ground
   layers:
   - Default
   - TransparentFX
