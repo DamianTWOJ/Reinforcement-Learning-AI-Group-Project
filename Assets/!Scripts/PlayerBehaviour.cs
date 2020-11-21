@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*
+Damian Jaundoo | 100623179
+Jason Chau | 100618629
+Christopher Kompel | 100580618
+Shan Rai | 100618348
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,13 +12,15 @@ public class PlayerBehaviour : MonoBehaviour
 {
     Animator anim;
     private Rigidbody2D rb;
-    public float velocity = 1;
+    public float velocity = 1; // Player jump vel
     public bool playerDead = false;
     public GameObject stateControllerObject;
     StateController stateController;
     bool canJump = true;
     bool isGrounded = false;
-    DetectObject incObject;
+    DetectObject incObject; // Collider to detect whether player can perform an action
+
+    AudioSource audioSource;
 
     public int recentAction = 3;
     public int chosenAction;
@@ -26,23 +34,24 @@ public class PlayerBehaviour : MonoBehaviour
         incObject = GetComponentInChildren<DetectObject>();
         stateController = stateControllerObject.GetComponent<StateController>();
         player = GameObject.Find("RL AI").GetComponent<MachineLearning>();
+        audioSource = GameObject.Find("Audio Source").GetComponent<AudioSource>();
 
         Debug.Log("--------------------------------");
     }
 
     public void GameOverUpdate()
     {
+        audioSource.Play();
         player.UpdateRewards();
     }
+
     // Update is called once per frame
     void Update()
     {
         chosenAction = player.PerformAction();
-        //Debug.Log("Chosen Action: " + chosenAction);
-        // Jump action (click once)
         recentAction = chosenAction;
-        //anim.SetBool("sliding", false);
 
+        // Actions the player can take, choice is decided by the AI
         if (chosenAction == 1 && canJump == true && incObject.isNear == true) //jump
         {
             anim.SetBool("Sliding", false);
@@ -60,16 +69,13 @@ public class PlayerBehaviour : MonoBehaviour
         else if (chosenAction == 0)
         {
             anim.SetBool("Sliding", false);
-            //stateController.GameOver();
 
         }
         else { anim.SetBool("Sliding", false); }
-        //}
-        //incomingHazard.isNear = false;
 
         if (!stateController.gameOverState) { player.UpdateRewards(); }
 
-
+        // Animate based on vertical velocity
         if (rb.velocity.y < 0)
         {
             // Fall animation trigger here
@@ -97,8 +103,10 @@ public class PlayerBehaviour : MonoBehaviour
         return recentAction;
     }
 
+    // Check when the player collides with a hazard
     void OnCollisionEnter2D(Collision2D col)
     {
+        // If the player collides with a hazard, player death
         if (col.gameObject.tag == "Slide Hazard" || col.gameObject.tag == "Jump Hazard")
         {
             playerDead = true;
@@ -108,6 +116,7 @@ public class PlayerBehaviour : MonoBehaviour
             stateController.GameOver();
         }
 
+        // Increase death counters and store data when player dies
         if (playerDead)
         {
             if (col.gameObject.tag == "Slide Hazard")

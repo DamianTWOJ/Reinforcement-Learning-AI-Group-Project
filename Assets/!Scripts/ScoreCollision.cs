@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*
+Damian Jaundoo | 100623179
+Jason Chau | 100618629
+Christopher Kompel | 100580618
+Shan Rai | 100618348
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +26,7 @@ public class ScoreCollision : MonoBehaviour
         id = GameObject.Find("Incoming Object Detection").GetComponent<IncomingDetection>();
     }
 
+    // Update score based on detection
     void OnCollisionEnter2D(Collision2D col)
     {
         collide = true;
@@ -31,12 +38,12 @@ public class ScoreCollision : MonoBehaviour
 
         if (col.gameObject.tag == "Jump Hazard")
         {
-            id.totalJumpObstacle--;          
-            id.totalObstacle--;        
+            id.totalJumpObstacle--;
+            id.totalObstacle--;
         }
         else if (col.gameObject.tag == "Slide Hazard")
         {
-            id.totalSlideObstacle--;       
+            id.totalSlideObstacle--;
             id.totalObstacle--;
         }
     }

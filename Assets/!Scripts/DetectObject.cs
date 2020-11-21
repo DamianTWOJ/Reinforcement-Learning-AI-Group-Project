@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*
+Damian Jaundoo | 100623179
+Jason Chau | 100618629
+Christopher Kompel | 100580618
+Shan Rai | 100618348
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
